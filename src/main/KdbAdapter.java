@@ -63,7 +63,6 @@ public class KdbAdapter {
 		
 		if(modeNum == 0) {
 		
-			long startTime = System.nanoTime();
 			String line = "";
 			
 			//price
@@ -200,16 +199,23 @@ public class KdbAdapter {
 			
 			//import data
 			System.out.println("Starting to import data to the server...");
+			long startTime = System.nanoTime();
 			kdbServer.ks("insert", "price", priceTable);
-			System.out.println("Price table imported.");
+			long endTime = System.nanoTime();
+			System.out.println("Price table imported with time: " + (endTime-startTime)/1000000.0);
+			
+			startTime = System.nanoTime();
 			kdbServer.ks("insert", "base", baseTable);
-			System.out.println("Base table imported.");
+			endTime = System.nanoTime();
+			System.out.println("Base table imported with time: " + (endTime-startTime)/1000000.0);
+			
+			startTime = System.nanoTime();
 			kdbServer.ks("insert", "split", splitTable);
 			System.out.println("Split table imported.");
-			long endTime = System.nanoTime();
+			endTime = System.nanoTime();
+			System.out.println("Split table imported with time: " + (endTime-startTime)/1000000.0);
 		
 		
-			System.out.println("Import Time:" + (endTime-startTime)/1000000000.0);
 			// Releasing all the memories
 			System.out.println("Releasing the memories...");
 			
