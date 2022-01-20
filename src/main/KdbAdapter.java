@@ -12,14 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class KdbAdapter {
-	private String host = "34.125.169.161"; //gcp
+	private String host = "34.125.238.1"; //gcp
 //	private String host = "47.253.89.109"; //ali
 	private int port = 5001;
 	private String username = "root";
 	private String password = "root";
-	private static String price_path = "/Users/ivankcl/Desktop/TEMG4952C/price-3000-4000.csv";
-	private static String base_path = "/Users/ivankcl/Desktop/TEMG4952C/base-3000-4000.csv";
-	private static String split_path = "/Users/ivankcl/Desktop/TEMG4952C/split-3000-4000.csv";
+	private static String price_path = "~/TEMGData/price-3000-4000.csv";
+	private static String base_path = "~/TEMGData/base-3000-4000.csv";
+	private static String split_path = "~/TEMGData/split-3000-4000.csv";
 	static KdbAdapter test = new KdbAdapter();
 	private static int numOfTest = 1;
 	
@@ -44,9 +44,11 @@ public class KdbAdapter {
 		try {
 			c query = test.getConnection();
 			long startTime = System.nanoTime();
-			query.k(q);
+			Object temp = query.k(q); 
+//			query.ks(q);
 			long endTime = System.nanoTime();
 			query.close();
+			temp = null;
 			return (endTime - startTime)/1000000.0;
 		}catch(IOException e) {
 			return 0.0;
@@ -212,11 +214,29 @@ public class KdbAdapter {
 		
 		
 			System.out.println("Import Time:" + (endTime-startTime)/1000000000.0);
+			// Releasing all the memories
+			System.out.println("Releasing the memories...");
+			
 			kdbServer.close();
+			PidList.remove(); dateList.remove(); highList.remove(); lowList.remove(); openList.remove(); closeList.remove(); volList.remove();
+			BidList.remove(); ExList.remove(); DescrList.remove(); SICList.remove(); SPRList.remove(); CuList.remove(); CreateDateList.remove();
+			SidList.remove(); SplitDateList.remove(); EntryDateList.remove(); FactorList.remove();
+			
+			Pid = null; date = null; high = null; low = null; open = null; close = null; vol = null;
+			Bid = null; Ex = null; Descr = null; SIC = null; SPR = null; Cu = null; CreateDate = null;
+			Sid = null; SplitDate = null; EntryDate = null; SplitFactor = null;
+			
+			priceData = null; baseData = null; splitData = null;
+			priceColumnNames = null; splitColumnNames = null; baseColumnNames = null;
+			priceDict = null; baseDict = null; splitDict = null;
+			priceTable = null; baseTable = null; splitTable = null;
+			
+			System.out.println("Done.");
+			
 		}
 		
 		//query and output
-		
+		System.out.println("Start sending queries...");
 		double query1a = 0.0;
 		double query1b = 0.0;
 		double query1c = 0.0;
@@ -224,12 +244,16 @@ public class KdbAdapter {
 		double query4 = 0.0;
 			
 		for(int i=0; i<numOfTest;i++) {
-			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
-	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
-	 		query1c += query("select from base");
-	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
-	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
-	 		System.out.println(query1a + " " + query1b + " " + query1c + " " + query3 + " " + query4);
+//			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
+			System.out.print(query1a + " ");
+//	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
+	 		System.out.print(query1b + " ");
+//	 		query1c += query("select from base");
+	 		System.out.print(query1c + " ");
+//	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
+	 		System.out.print(query3 + " ");
+//	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
+	 		System.out.println(query4);
 		}
 
  		//end
