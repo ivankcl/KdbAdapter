@@ -12,19 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class KdbAdapter {
-	private String host = "34.125.238.1"; //gcp
-//	private String host = "47.253.89.109"; //ali
+	private String host = "34.125.238.1"; 
 	private int port = 5001;
 	private String username = "root";
 	private String password = "root";
-	private static String price_path = "~/TEMGData/price-3000-4000.csv";
-	private static String base_path = "~/TEMGData/base-3000-4000.csv";
-	private static String split_path = "~/TEMGData/split-3000-4000.csv";
+	private static String price_path = "/home/TEMGData/price-3000-4000.csv";
+	private static String base_path = "/home/TEMGData/base-3000-4000.csv";
+	private static String split_path = "/home/TEMGData/split-3000-4000.csv";
 	static KdbAdapter test = new KdbAdapter();
 	private static int numOfTest = 1;
-	
-	// private boolean useTLS;
-	//private String dbName = "ruc_test";
 	
 	public static void ping() {
 		System.out.println("ping");
@@ -244,15 +240,15 @@ public class KdbAdapter {
 		double query4 = 0.0;
 			
 		for(int i=0; i<numOfTest;i++) {
-//			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
+			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
 			System.out.print(query1a + " ");
-//	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
+	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1b + " ");
-//	 		query1c += query("select from base");
+	 		query1c += query("select avg close, max close, min close, asc id, tradedate by id, tradedate from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1c + " ");
-//	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
+	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
 	 		System.out.print(query3 + " ");
-//	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
+	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
 	 		System.out.println(query4);
 		}
 
@@ -262,6 +258,7 @@ public class KdbAdapter {
 		System.out.println("Average time for query1c: " + query1c/numOfTest);
 		System.out.println("Average time for query3: " + query3/numOfTest);
 		System.out.println("Average time for query4: " + query4/numOfTest);
+		
  		System.out.println("EOP");
        
 	}
