@@ -87,7 +87,7 @@ Cloning the repository
 
 Changing the settings (IP address, path of data, number of tests):
 
-`nano KdbAdapter/src/main/KdbAdapter.java`
+`nano ~/KdbAdapter/src/main/KdbAdapter.java`
 
 Building the program:
 
