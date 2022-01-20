@@ -12,15 +12,16 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class KdbAdapter {
-	private String host = "47.253.89.109";
+	private String host = "34.125.169.161"; //gcp
+//	private String host = "47.253.89.109"; //ali
 	private int port = 5001;
 	private String username = "root";
 	private String password = "root";
-	private static String price_path = "/root/TEMGData/price-3000-4000.csv";
-	private static String base_path = "/root/TEMGData/base-3000-4000.csv";
-	private static String split_path = "/root/TEMGData/split-3000-4000.csv";
+	private static String price_path = "/Users/ivankcl/Desktop/TEMG4952C/price-3000-4000.csv";
+	private static String base_path = "/Users/ivankcl/Desktop/TEMG4952C/base-3000-4000.csv";
+	private static String split_path = "/Users/ivankcl/Desktop/TEMG4952C/split-3000-4000.csv";
 	static KdbAdapter test = new KdbAdapter();
-	private static int numOfTest = 100;
+	private static int numOfTest = 1;
 	
 	// private boolean useTLS;
 	//private String dbName = "ruc_test";
@@ -59,7 +60,7 @@ public class KdbAdapter {
 		ping();
 		
 		Scanner mode = new Scanner(System.in);
-		System.out.println("Enter mode:");
+		System.out.println("Enter mode: ('1' for query only; '0' for query and importing the data");
 		int modeNum = mode.nextInt();
 		
 		if(modeNum == 0) {
@@ -91,7 +92,8 @@ public class KdbAdapter {
 			LinkedList<Timestamp> EntryDateList = new LinkedList<>();
 			LinkedList<Short> FactorList = new LinkedList<>();
 			
-			
+			System.out.println("Starting to import data to array...");
+			//date import
 			try {
 				//price
 				BufferedReader Pbr = new BufferedReader(new FileReader(price_path));
@@ -111,6 +113,7 @@ public class KdbAdapter {
 					volList.add((Double.valueOf(values[6])));
 	
 	 			}
+				System.out.println("Price table imported.");
 				
 				//base
 				BufferedReader Bbr = new BufferedReader(new FileReader(base_path));
@@ -130,7 +133,7 @@ public class KdbAdapter {
 					CreateDateList.add(tempTime);
 	
 	 			}
-				
+				System.out.println("Base table imported.");
 				//split
 				
 				BufferedReader Sbr = new BufferedReader(new FileReader(split_path));
@@ -148,6 +151,7 @@ public class KdbAdapter {
 					EntryDateList.add(tempTime2);
 					FactorList.add(Short.valueOf(values[3]));
 	 			}
+				System.out.println("Split table imported.");
 				
 			}catch(IOException e){
 				e.printStackTrace();
@@ -196,10 +200,14 @@ public class KdbAdapter {
 			c.Dict splitDict = new c.Dict(splitColumnNames, splitData);
 			c.Flip splitTable = new c.Flip(splitDict);
 			
-			//import date
+			//import data
+			System.out.println("Starting to import data to the server...");
 			kdbServer.ks("insert", "price", priceTable);
+			System.out.println("Price table imported.");
 			kdbServer.ks("insert", "base", baseTable);
+			System.out.println("Base table imported.");
 			kdbServer.ks("insert", "split", splitTable);
+			System.out.println("Split table imported.");
 			long endTime = System.nanoTime();
 		
 		
@@ -218,18 +226,18 @@ public class KdbAdapter {
 		for(int i=0; i<numOfTest;i++) {
 			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
-	// 		query1c += query("select from price");
+	 		query1c += query("select from base");
 	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
 	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
-	 		System.out.println(query1a + query1b + query1c + query3 + query4);
+	 		System.out.println(query1a + " " + query1b + " " + query1c + " " + query3 + " " + query4);
 		}
 
  		//end
-		System.out.println("Average time for query1a:" + query1a/100.0);
-		System.out.println("Average time for query1b:" + query1b/100.0);
-//		System.out.println("Average time for query1c:" + query1c/100.0);
-		System.out.println("Average time for query3:" + query3/100.0);
-		System.out.println("Average time for query4:" + query4/100.0);
+		System.out.println("Average time for query1a: " + query1a/numOfTest);
+		System.out.println("Average time for query1b: " + query1b/numOfTest);
+		System.out.println("Average time for query1c: " + query1c/numOfTest);
+		System.out.println("Average time for query3: " + query3/numOfTest);
+		System.out.println("Average time for query4: " + query4/numOfTest);
  		System.out.println("EOP");
        
 	}
