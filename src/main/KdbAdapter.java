@@ -265,7 +265,7 @@ public class KdbAdapter {
 	 		Squery1c += query1c;
 	 		
 	 		query3 = query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
-	 		System.out.print(query3);
+	 		System.out.print(query3 + " ");
 	 		Squery3 += query3;
 	 		
 	 		query4 = query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
