@@ -55,6 +55,15 @@ Check if the versions are correct:
 
 `mvn -version`
 
+Remarks:
+If the version of Java in `mvn -version` is not 17, you can execute the following:
+
+`export JAVA_HOME=/usr/lib/jvm/java-17-oracle/`
+
+`export PATH=$JAVA_HOME/bin:$PATH`
+
+
+
 2. Install kdb
 
 `cd ~`
