@@ -244,26 +244,41 @@ public class KdbAdapter {
 		double query1c = 0.0;
 		double query3 = 0.0;
 		double query4 = 0.0;
+		
+		double Squery1a = 0.0;
+		double Squery1b = 0.0;
+		double Squery1c = 0.0;
+		double Squery3 = 0.0;
+		double Squery4 = 0.0;
 			
 		for(int i=0; i<numOfTest;i++) {
-			query1a += query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
+			query1a = query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
 			System.out.print(query1a + " ");
-	 		query1b += query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
+			Squery1a += query1a;
+			
+	 		query1b = query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1b + " ");
-//	 		query1c += query("select avg close, max close, min close, asc id, tradedate by id, tradedate from price where tradedate.year > 2022 and tradedate.year < 2032");
+	 		Squery1b += query1b;
+	 		
+//	 		query1c = query("select avg close, max close, min close, asc id, tradedate by id, tradedate from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1c + " ");
-	 		query3 += query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
-	 		System.out.print(query3 + " ");
-	 		query4 += query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
-	 		System.out.println(query4);
+	 		Squery1c += query1c;
+	 		
+	 		query3 = query("select avg price.close from price uj base where price.id ~ base.id, base.sic ~ `COMPUTER");
+	 		System.out.print(query3);
+	 		Squery3 += query3;
+	 		
+	 		query4 = query("select price.id, price.tradedate, price.high, price.low from price uj split where price.id ~ split.id, price.tradedate ~ split.splitdate");
+	 		System.out.println(query4 + " ");
+	 		Squery4 += query4;
 		}
 
  		//end
-		System.out.println("Average time for query1a: " + query1a/numOfTest);
-		System.out.println("Average time for query1b: " + query1b/numOfTest);
-		System.out.println("Average time for query1c: " + query1c/numOfTest);
-		System.out.println("Average time for query3: " + query3/numOfTest);
-		System.out.println("Average time for query4: " + query4/numOfTest);
+		System.out.println("Average time for query1a: " + Squery1a/numOfTest);
+		System.out.println("Average time for query1b: " + Squery1b/numOfTest);
+		System.out.println("Average time for query1c: " + Squery1c/numOfTest);
+		System.out.println("Average time for query3: " + Squery3/numOfTest);
+		System.out.println("Average time for query4: " + Squery4/numOfTest);
 		
  		System.out.println("EOP");
        
