@@ -24,12 +24,14 @@ Upgrade it to 3.8.4:
 
 Edit `~/.profile` with `sudo nano ~/.profile` and add these four lines:
 
-`
-export M2_HOME=/usr/local/apache-maven/apache-maven-3.8.4
-export M2=$M2_HOME/bin
-export MAVEN_OPTS="-Xms256m -Xmx512m"
-export PATH=$M2:$PATH  
-`
+`export M2_HOME=/usr/local/apache-maven/apache-maven-3.8.4`
+
+`export M2=$M2_HOME/bin`
+
+`export MAVEN_OPTS="-Xms256m -Xmx512m"`
+
+`export PATH=$M2:$PATH`
+
 
 Source the file
 
