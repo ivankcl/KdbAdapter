@@ -252,15 +252,15 @@ public class KdbAdapter {
 		double Squery4 = 0.0;
 			
 		for(int i=0; i<numOfTest;i++) {
-			query1a = query("select avg close, max close, min close, asc id, tradedate.year by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
+			query1a = query("select avg close, max close, min close by id, tradedate.year from price where tradedate.year > 2022 and tradedate.year < 2032");
 			System.out.print(query1a + " ");
 			Squery1a += query1a;
 			
-	 		query1b = query("select avg close, max close, min close, asc id, tradedate.month by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
+	 		query1b = query("select avg close, max close, min close by id, tradedate.month from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1b + " ");
 	 		Squery1b += query1b;
 	 		
-//	 		query1c = query("select avg close, max close, min close, asc id, tradedate by id, tradedate from price where tradedate.year > 2022 and tradedate.year < 2032");
+	 		query1c = query("select avg close, max close, min close by id, tradedate from price where tradedate.year > 2022 and tradedate.year < 2032");
 	 		System.out.print(query1c + " ");
 	 		Squery1c += query1c;
 	 		
