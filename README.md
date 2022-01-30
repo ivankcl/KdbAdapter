@@ -66,11 +66,11 @@ If the version of Java in `mvn -version` is not 17, you can execute the followin
 
 
 
-2. Install kdb
+2. Install kdb （32bit)
 
 `cd ~`
 
-`wget https://raw.githubusercontent.com/ivankcl/temg4952c/main/kdbsetup.sh`
+`wget https://raw.githubusercontent.com/ivankcl/KdbAdapter/main/32bit_setup.sh`
 
 `sudo sh kdbsetup.sh`
 
